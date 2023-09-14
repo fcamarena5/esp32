@@ -1,4 +1,3 @@
-
 #include <WiFi.h>
 #include <ESPAsyncWebSrv.h>
 #include "functions.h"
@@ -33,24 +32,19 @@ void setup() {
 }
 
 void loop() {
-
   int counter = 0;
-
   if (check_credentials_exist() && WiFi.status() != WL_CONNECTED) {
-    // Connect to the Wi-Fi is the credentials are stored
     connect_wifi();
   }
   if (WiFi.status() == WL_CONNECTED && !is_included_in_server()) {
-    // Register the device in the server
     send_request_add_device();
   }
-  
   while (WiFi.status() == WL_CONNECTED && is_included_in_server()) {
     if (counter % 60 == 0) {
       send_data();
       counter = 0;
     }
-    if (counter % 10 == 0) {
+    if (counter % 1 == 0) {
       send_thermal_data();
     }
     counter += 1;
